@@ -46,7 +46,8 @@ module.exports = function decode(expr) {
   }
 
   const encodedLetterNoZero = [];
-  encodedLetter.forEach(function (item) {
+
+  encodedLetter.forEach((item) => {
     for (let i = 0; i < item.length; i += 1) {
       if (item[i] === '1') {
         encodedLetterNoZero.push(item.slice(i));
@@ -59,7 +60,7 @@ module.exports = function decode(expr) {
     }
   });
 
-  const morseCodeExpr = encodedLetterNoZero.map(function (item) {
+  const morseCodeExpr = encodedLetterNoZero.map((item) => {
     let itemEncoded = '';
 
     if (item[0] === '1') {
@@ -78,7 +79,7 @@ module.exports = function decode(expr) {
     return itemEncoded;
   });
 
-  const resultSentence = morseCodeExpr.map(function (item) {
+  const resultSentence = morseCodeExpr.map((item) => {
     let newItem = item;
 
     Object.keys(MORSE_TABLE).forEach((key) => {
