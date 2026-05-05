@@ -1,4 +1,3 @@
-/*
 const MORSE_TABLE = {
   '.-': 'a',
   '-...': 'b',
@@ -37,8 +36,62 @@ const MORSE_TABLE = {
   '----.': '9',
   '-----': '0',
 };
-*/
 
-module.exports = function decode(/* expr */) {
-  throw new Error('Not implemented');
+module.exports = function decode(expr) {
+  const encodedLetter = [];
+
+  for (let i = 0; i < expr.length - 9; i += 10) {
+    const counter = i + 10;
+    encodedLetter.push(expr.slice(i, counter));
+  }
+
+  const encodedLetterNoZero = [];
+  encodedLetter.forEach(function (item) {
+    for (let i = 0; i < item.length; i += 1) {
+      if (item[i] === '1') {
+        encodedLetterNoZero.push(item.slice(i));
+        break;
+      }
+      if (item[i] === '*') {
+        encodedLetterNoZero.push(item);
+        break;
+      }
+    }
+  });
+
+  const morseCodeExpr = encodedLetterNoZero.map(function (item) {
+    let itemEncoded = '';
+
+    if (item[0] === '1') {
+      for (let i = 0; i < item.length; i += 2) {
+        if (item[i] === '1' && item[i + 1] === '0') {
+          itemEncoded += '.';
+        } else if (item[i] === '1' && item[i + 1] === '1') {
+          itemEncoded += '-';
+        }
+      }
+      if (item[0] === '*') {
+        itemEncoded += ' ';
+      }
+    }
+
+    return itemEncoded;
+  });
+
+  const resultSentence = morseCodeExpr.map(function (item) {
+    let newItem = item;
+
+    Object.keys(MORSE_TABLE).forEach((key) => {
+      const value = MORSE_TABLE[key];
+      if (newItem === key) {
+        newItem = value;
+      }
+    });
+
+    if (newItem === '') newItem = ' ';
+
+    return newItem;
+  });
+
+  return resultSentence.join('');
 };
